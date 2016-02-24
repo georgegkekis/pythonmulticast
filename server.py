@@ -1,7 +1,9 @@
 import socket
 import struct
+import time
 import sys
 
+msgheartbeat = '001723f14717,*WB45HB'
 msgloopdetection = '001723F14717,*LOOPDETECTION,3523115984,851,853'
 msgversion = '001723f14717,*VERSION:2.4.0'
 msgstatus = '001723f14717,*STATUS,Authenticated,-73'
@@ -21,13 +23,10 @@ sock.settimeout(11.2)
 ttl = struct.pack('b', 1)
 sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
-try:
-
+while 1:
     # Send data to the multicast group
     print >>sys.stderr, 'sending "%s"' % msgsitesyrvey
     sent = sock.sendto(msgsitesyrvey, multicast_group)
-
-finally:
-    print >>sys.stderr, 'closing socket'
-    sock.close()
+    time.sleep(1)
+    
 
