@@ -40,7 +40,7 @@ def check_survey(mydata):
         data, address = sock.recvfrom(1024)
 	mydata = re.split(',',data)
 	i+=1
-    print >>sys.stderr, 'syrvey data' , mydata
+    print >>sys.stderr, 'syrvey data:%s' % surveylist
 
 
 

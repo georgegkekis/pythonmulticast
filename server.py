@@ -35,6 +35,7 @@ while i == 1:
     sent = sock.sendto(msgsitesyrvey3, multicast_group)
     sent = sock.sendto(msgsitesyrvey4, multicast_group)
     sent = sock.sendto(msgsitesyrvey5, multicast_group)
+    sent = sock.sendto(msgheartbeat, multicast_group)
     time.sleep(1)
     i = 2
     '''data, address = sock.recvfrom(1024)
