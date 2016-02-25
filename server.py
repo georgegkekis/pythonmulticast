@@ -26,12 +26,17 @@ sock.settimeout(11.2)
 # local network segment.
 ttl = struct.pack('b', 1)
 sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
-
-while 1:
+i =1
+while i == 1:
     # Send data to the multicast group
-    print >>sys.stderr, '\nsending "%s"' % msgversion
-    sent = sock.sendto(msgversion, multicast_group)
+    print >>sys.stderr, '\nsending data'
+    sent = sock.sendto(msgsitesyrvey1, multicast_group)
+    sent = sock.sendto(msgsitesyrvey2, multicast_group)
+    sent = sock.sendto(msgsitesyrvey3, multicast_group)
+    sent = sock.sendto(msgsitesyrvey4, multicast_group)
+    sent = sock.sendto(msgsitesyrvey5, multicast_group)
     time.sleep(1)
+    i = 2
     '''data, address = sock.recvfrom(1024)
     if data == 'somecommand':
         sent = sock.sendto('basic responce', multicast_group)'''
