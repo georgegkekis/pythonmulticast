@@ -8,7 +8,7 @@ def check_heartbeat(mydata):
     if len(mydata) != 2:
         return -1
 
-    #check that data[1] == '*WB45HB'
+    #check that data is correct
     if mydata[0] == '001723f14717' and mydata[1] == '*WB45HB':
         print >>sys.stderr, 'received a valid heart beat:\nMAC address:%s\nidentity:%s' %(mydata[0],mydata[1])
         return 1
@@ -16,6 +16,19 @@ def check_heartbeat(mydata):
         print >>sys.stderr, 'this is not a valid heart beat will continue with other checks'
         return -1
     #FIXME:handle exceptions
+
+def check_version(mydata):
+     #check that the list has only two elements
+    if len(mydata) != 2:
+        return -1
+
+    #check that data is correct
+    if mydata[0] == '001723f14717' and mydata[1] == '*VERSION:2.4.0':
+        print >>sys.stderr, 'received a valid version:\nMAC address:%s\nVersion:%s' %(mydata[0],mydata[1])
+        return 1
+    else:
+        print >>sys.stderr, 'this is not a valid version will continue with other checks'
+        return -1
     
 
 multicast_group = '127.0.0.1'
@@ -35,12 +48,15 @@ while True:
     data, address = sock.recvfrom(1024)
     
     print >>sys.stderr, 'received %s bytes from %s' % (len(data), address)
-    print >>sys.stderr, data
 
     #parsing the data
     mydata = re.split(',',data)
+
+    #checking the data
     found = check_heartbeat(mydata)
-    print >>sys.stderr,found
+    check_version(mydata)
+        
+
     print >>sys.stderr, '\nsending acknowledgement to', address
     sock.sendto('ack', address)
     
@@ -51,8 +67,6 @@ while True:
 '''def check_loopdetection(mydata):
     #checks for valid lopdetection messages
 
-def check_status(mydata):
-    #checks for valid status
 
 def check_survey(mydata):
     #checks for valid survey'''

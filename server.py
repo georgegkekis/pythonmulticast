@@ -29,8 +29,8 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 while 1:
     # Send data to the multicast group
-    print >>sys.stderr, '\nsending "%s"' % msgsitesyrvey1
-    sent = sock.sendto(msgsitesyrvey1, multicast_group)
+    print >>sys.stderr, '\nsending "%s"' % msgversion
+    sent = sock.sendto(msgversion, multicast_group)
     time.sleep(1)
     '''data, address = sock.recvfrom(1024)
     if data == 'somecommand':
