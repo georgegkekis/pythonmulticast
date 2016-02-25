@@ -3,6 +3,20 @@ import struct
 import sys
 import re
 
+def check_heartbeat(mydata):
+     #check that the list has only two elements
+    if len(mydata) != 2:
+        return
+
+    #check that data[1] == '*WB45HB'
+    if mydata[0] == '001723f14717' and mydata[1] == '*WB45HB':
+        print >>sys.stderr, 'received a valid heart beat:\nMAC address:%s\nidentity:%s' %(mydata[0],mydata[1])
+    else:
+        print >>sys.stderr, 'this is not a valid heart beat will continue with other checks'
+   
+    #FIXME:handle exceptions
+    
+
 multicast_group = '127.0.0.1'
 server_address = ('', 50000)
 command = 'somecommand'
@@ -24,9 +38,21 @@ while True:
 
     #parsing the data
     mydata = re.split(',|\n',data)
-    '''print >>sys.stderr, '\ndata broken up to :\ndata1: %s\ndata2: %s\ndata3: %s\ndata4: %s\ndata5: %s\ndata6: %s\ndata7: %s\ndata8: %s' %(mydata[0],mydata[1],mydata[2],mydata[3],mydata[4],mydata[5],mydata[6],mydata[7])'''
+    check_heartbeat(mydata)
     print >>sys.stderr,mydata
+    check_heartbeat(mydata)
     print >>sys.stderr, '\nsending acknowledgement to', address
     sock.sendto('ack', address)
     
     sent = sock.sendto(command, address)
+
+
+
+'''def check_loopdetection(mydata):
+    #checks for valid lopdetection messages
+
+def check_status(mydata):
+    #checks for valid status
+
+def check_survey(mydata):
+    #checks for valid survey'''
