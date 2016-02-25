@@ -6,14 +6,15 @@ import re
 def check_heartbeat(mydata):
      #check that the list has only two elements
     if len(mydata) != 2:
-        return
+        return -1
 
     #check that data[1] == '*WB45HB'
     if mydata[0] == '001723f14717' and mydata[1] == '*WB45HB':
         print >>sys.stderr, 'received a valid heart beat:\nMAC address:%s\nidentity:%s' %(mydata[0],mydata[1])
+        return 1
     else:
         print >>sys.stderr, 'this is not a valid heart beat will continue with other checks'
-   
+        return -1
     #FIXME:handle exceptions
     
 
@@ -37,10 +38,9 @@ while True:
     print >>sys.stderr, data
 
     #parsing the data
-    mydata = re.split(',|\n',data)
-    check_heartbeat(mydata)
-    print >>sys.stderr,mydata
-    check_heartbeat(mydata)
+    mydata = re.split(',',data)
+    found = check_heartbeat(mydata)
+    print >>sys.stderr,found
     print >>sys.stderr, '\nsending acknowledgement to', address
     sock.sendto('ack', address)
     
