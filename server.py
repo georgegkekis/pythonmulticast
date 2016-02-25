@@ -7,7 +7,11 @@ msgheartbeat = '001723f14717,*WB45HB'
 msgloopdetection = '001723F14717,*LOOPDETECTION,3523115984,851,853'
 msgversion = '001723f14717,*VERSION:2.4.0'
 msgstatus = '001723f14717,*STATUS,Authenticated,-73'
-msgsitesyrvey = '001723f14717,*SITESURVEY,tswpa,-68,WPA2-PSK-AES\n001723f14717,*SITESURVEY,dimitris2,-76,WPA2-PSK-AES\n001723f14717,*SITESURVEY,dimitris-public,-75,WPA2-PSK-AES\n001723f14717,*SITESURVEY,dimitris2,-66,WPA2-PSK-AES\n001723f14717,*SITESURVEY,dimitris-public,-66,WPA2-PSK-AES'
+msgsitesyrvey1 = '001723f14717,*SITESURVEY,tswpa,-68,WPA2-PSK-AES' 
+msgsitesyrvey2 = '001723f14717,*SITESURVEY,dimitris2,-76,WPA2-PSK-AES' 
+msgsitesyrvey3 = '001723f14717,*SITESURVEY,dimitris-public,-75,WPA2-PSK-AES'
+msgsitesyrvey4 = '001723f14717,*SITESURVEY,dimitris2,-66,WPA2-PSK-AES'
+msgsitesyrvey5 = '001723f14717,*SITESURVEY,dimitris-public,-66,WPA2-PSK-AES'
 
 multicast_group = ('127.0.0.1', 50000)
 
@@ -25,10 +29,10 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 while 1:
     # Send data to the multicast group
-    print >>sys.stderr, '\nsending "%s"' % msgsitesyrvey
-    sent = sock.sendto(msgsitesyrvey, multicast_group)
+    print >>sys.stderr, '\nsending "%s"' % msgsitesyrvey1
+    sent = sock.sendto(msgsitesyrvey1, multicast_group)
     time.sleep(1)
-    data, address = sock.recvfrom(1024)
+    '''data, address = sock.recvfrom(1024)
     if data == 'somecommand':
-        sent = sock.sendto('basic responce', multicast_group)
+        sent = sock.sendto('basic responce', multicast_group)'''
 
