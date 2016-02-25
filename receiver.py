@@ -17,6 +17,7 @@ def check_heartbeat(mydata):
         return -1
     #FIXME:handle exceptions
 
+
 def check_version(mydata):
      #check that the list has only two elements
     if len(mydata) != 2:
@@ -29,7 +30,19 @@ def check_version(mydata):
     else:
         print >>sys.stderr, 'this is not a valid version will continue with other checks'
         return -1
-    
+
+def check_survey(mydata):
+    i=0
+    surveylist =[]
+    while mydata[0] == '001723f14717' and mydata[1] == '*SITESURVEY': 
+        print >>sys.stderr, 'received a valid survey:\nMAC address:%s\nSSID:%s' %(mydata[0],mydata[2])   
+        surveylist.append(mydata)
+        data, address = sock.recvfrom(1024)
+	mydata = re.split(',',data)
+	i+=1
+    print >>sys.stderr, 'syrvey data' , mydata
+
+
 
 multicast_group = '127.0.0.1'
 server_address = ('', 50000)
@@ -55,6 +68,7 @@ while True:
     #checking the data
     found = check_heartbeat(mydata)
     check_version(mydata)
+    check_survey(mydata)
         
 
     print >>sys.stderr, '\nsending acknowledgement to', address
@@ -67,6 +81,7 @@ while True:
 '''def check_loopdetection(mydata):
     #checks for valid lopdetection messages
 
+def check_loopdetection(mydata):
+    msgloopdetection = '001723F14717,*LOOPDETECTION,3523115984,851,853'
 
-def check_survey(mydata):
-    #checks for valid survey'''
+'''
