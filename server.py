@@ -28,9 +28,15 @@ def sendloopdetection(mac , nu1 , nu2 ,nu3):
     
 def sendstatus(mac , status , signalst):
     print >>sys.stderr, 'sending status\n'
-    sent = sock.sendto(mac + ',*status'+ status + signalst , multicast_group)
+    sent = sock.sendto(mac + ',*STATUS'+ status + signalst , multicast_group)
 
-'''def sendheartbeat(mac , identification):
+def sendheartbeat(mac , identification):
+    print >>sys.stderr, 'sending heartbeat\n'
+    sent = sock.sendto(mac + identification , multicast_group)
+
+
+
+'''
 
 def sendsurvey(mac , ssid , signalst , secur):'''
 
@@ -49,5 +55,6 @@ sock = serverinit()
 sendversion('001723f14717' , ':2.4.0')
 sendloopdetection('001723f14717' , ',3523115984' , ',851' ,',853')  
 sendstatus('001723f14717' , ',Authenticated' , ',-73')  
+sendheartbeat('001723f14717' , ',*WB45HB')
 
 
