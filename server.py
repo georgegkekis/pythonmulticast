@@ -5,8 +5,6 @@ import sys
 
 def serverinit():
 
-   
-
     # Create the datagram socket
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -20,9 +18,13 @@ def serverinit():
     sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
     return sock
 
-'''def sendversion(mac , version):
+def sendversion(mac , version):
+# Send data to the multicast group
+    print >>sys.stderr, '\nsending data'
+    sent = sock.sendto(mac + ',*VERSION'+ version, multicast_group)
+    
 
-def sendheartbeat(mac , identification):
+'''def sendheartbeat(mac , identification):
 
 def sendloopdetection(mac , nu1 , nu2 ,nu3):
 
@@ -42,19 +44,9 @@ msgsitesyrvey5 = '001723f14717,*SITESURVEY,dimitris-public,-66,WPA2-PSK-AES'
 
 multicast_group = ('127.0.0.1', 50000)
 sock = serverinit()
-i =1
-while i == 1:
-    # Send data to the multicast group
-    print >>sys.stderr, '\nsending data'
-    sent = sock.sendto(msgsitesyrvey1, multicast_group)
-    sent = sock.sendto(msgsitesyrvey2, multicast_group)
-    sent = sock.sendto(msgsitesyrvey3, multicast_group)
-    sent = sock.sendto(msgsitesyrvey4, multicast_group)
-    sent = sock.sendto(msgsitesyrvey5, multicast_group)
-    sent = sock.sendto(msgheartbeat, multicast_group)
-    time.sleep(1)
-    i = 2
-    '''data, address = sock.recvfrom(1024)
+sendversion('001723f14717' , ':2.4.0')
+    
+'''data, address = sock.recvfrom(1024)
     if data == 'somecommand':
         sent = sock.sendto('basic responce', multicast_group)'''
 
