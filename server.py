@@ -19,20 +19,18 @@ def serverinit():
     return sock
 
 def sendversion(mac , version):
-    # Send data to the multicast group
     print >>sys.stderr, 'sending version\n'
     sent = sock.sendto(mac + ',*VERSION'+ version, multicast_group)
 
 def sendloopdetection(mac , nu1 , nu2 ,nu3):
     print >>sys.stderr, 'sending loopdetection\n'
-    sent = sock.sendto(mac + ',*LOOPDETECTION'+ nu1 + nu2 + nu3, multicast_group)
+    sent = sock.sendto(mac + ',*LOOPDETECTION'+ nu1 + nu2 + nu3 , multicast_group)
     
+def sendstatus(mac , status , signalst):
+    print >>sys.stderr, 'sending status\n'
+    sent = sock.sendto(mac + ',*status'+ status + signalst , multicast_group)
 
 '''def sendheartbeat(mac , identification):
-
-
-
-def sendstatus(mac , status , signalst):
 
 def sendsurvey(mac , ssid , signalst , secur):'''
 
@@ -49,6 +47,7 @@ msgsitesyrvey5 = '001723f14717,*SITESURVEY,dimitris-public,-66,WPA2-PSK-AES'
 multicast_group = ('127.0.0.1', 50000)
 sock = serverinit()
 sendversion('001723f14717' , ':2.4.0')
-sendloopdetection('001723f14717' , ',3523115984' , ',851' ,',853')    
+sendloopdetection('001723f14717' , ',3523115984' , ',851' ,',853')  
+sendstatus('001723f14717' , ',Authenticated' , ',-73')  
 
 
