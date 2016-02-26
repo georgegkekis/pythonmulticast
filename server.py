@@ -34,11 +34,9 @@ def sendheartbeat(mac , identification):
     print >>sys.stderr, 'sending heartbeat\n'
     sent = sock.sendto(mac + identification , multicast_group)
 
-
-
-'''
-
-def sendsurvey(mac , ssid , signalst , secur):'''
+def sendsurvey(mac , ssid , signalst , secur):
+    print >>sys.stderr, 'sending survey\n'
+    sent = sock.sendto(mac + ',*SITESURVEY' + ssid + signalst + secur, multicast_group)
 
 msgheartbeat = '001723f14717,*WB45HB'
 msgloopdetection = '001723F14717,*LOOPDETECTION,3523115984,851,853'
@@ -56,5 +54,6 @@ sendversion('001723f14717' , ':2.4.0')
 sendloopdetection('001723f14717' , ',3523115984' , ',851' ,',853')  
 sendstatus('001723f14717' , ',Authenticated' , ',-73')  
 sendheartbeat('001723f14717' , ',*WB45HB')
+sendsurvey('001723f14717' , ',tswpa' , ',-68' , ',WPA2-PSK-AES')
 
 
