@@ -3,6 +3,33 @@ import struct
 import time
 import sys
 
+def serverinit():
+
+   
+
+    # Create the datagram socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    # Set a timeout so the socket does not block indefinitely when trying
+    # to receive data.
+    sock.settimeout(11.2)
+
+    # Set the time-to-live for messages to 1 so they do not go past the
+    # local network segment.
+    ttl = struct.pack('b', 1)
+    sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
+    return sock
+
+'''def sendversion(mac , version):
+
+def sendheartbeat(mac , identification):
+
+def sendloopdetection(mac , nu1 , nu2 ,nu3):
+
+def sendstatus(mac , status , signalst):
+
+def sendsurvey(mac , ssid , signalst , secur):'''
+
 msgheartbeat = '001723f14717,*WB45HB'
 msgloopdetection = '001723F14717,*LOOPDETECTION,3523115984,851,853'
 msgversion = '001723f14717,*VERSION:2.4.0'
@@ -14,18 +41,7 @@ msgsitesyrvey4 = '001723f14717,*SITESURVEY,dimitris2,-66,WPA2-PSK-AES'
 msgsitesyrvey5 = '001723f14717,*SITESURVEY,dimitris-public,-66,WPA2-PSK-AES'
 
 multicast_group = ('127.0.0.1', 50000)
-
-# Create the datagram socket
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-# Set a timeout so the socket does not block indefinitely when trying
-# to receive data.
-sock.settimeout(11.2)
-
-# Set the time-to-live for messages to 1 so they do not go past the
-# local network segment.
-ttl = struct.pack('b', 1)
-sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
+sock = serverinit()
 i =1
 while i == 1:
     # Send data to the multicast group
