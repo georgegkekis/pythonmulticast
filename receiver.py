@@ -32,15 +32,14 @@ def check_version(mydata):
         return -1
 
 def check_survey(mydata):
-    i=0
     surveylist =[]
     while mydata[0] == '001723f14717' and mydata[1] == '*SITESURVEY': 
         print >>sys.stderr, 'received a valid survey:\nMAC address:%s\nSSID:%s' %(mydata[0],mydata[2])   
         surveylist.append(mydata)
         data, address = sock.recvfrom(1024)
 	mydata = re.split(',',data)
-	i+=1
-    print >>sys.stderr, 'syrvey data:%s' % surveylist
+    print >>sys.stderr, 'syrvey data:%s\n\n\n\n' % len(surveylist)
+    print >>sys.stderr, 'syrvey data:%s\n%s' % (surveylist[0][0],surveylist[1][0])
 
 
 
