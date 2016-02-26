@@ -63,7 +63,7 @@ while True:
 
     #parsing the data
     mydata = re.split(',',data)
-
+    print >>sys.stderr, 'the data are %s' % mydata
     #checking the data
     found = check_heartbeat(mydata)
     check_version(mydata)
