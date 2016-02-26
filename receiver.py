@@ -67,7 +67,7 @@ while True:
     #checking the data
     found = check_heartbeat(mydata)
     check_version(mydata)
-    check_survey(mydata)
+    #check_survey(mydata)
         
 
     print >>sys.stderr, '\nsending acknowledgement to', address
