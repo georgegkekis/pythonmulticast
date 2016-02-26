@@ -3,37 +3,44 @@ import struct
 import time
 import sys
 
-multicast_group = ('127.0.0.1', 50000)
 mac = '001723f14717'
 
-def sendversion(mac, version, verbose=True):
+def serverinit():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.connect(('127.0.0.1', 50000))
+    return sock
+
+def sendversion(sock, mac, version, verbose=True):
     if verbose: print >>sys.stderr, 'sending version\n'
-    sent = sock.sendto(mac + ',*VERSION:'+ version, multicast_group)
+    sent = sock.send(mac + ',*VERSION:'+ version)
 
-def sendloopdetection(mac, nu1 , nu2 ,nu3, verbose=True):
+def sendloopdetection(sock, mac, nu1 , nu2 ,nu3, verbose=True):
     if verbose: print >>sys.stderr, 'sending loopdetection\n'
-    sent = sock.sendto(mac + ',*LOOPDETECTION,'+ nu1 + ',' + nu2 + ',' + nu3, multicast_group)
+    sent = sock.send(mac + ',*LOOPDETECTION,'+ nu1 + ',' + nu2 + ',' + nu3)
     
-def sendstatus(mac, status, signalst, verbose=True):
+def sendstatus(sock, mac, status, signalst, verbose=True):
     if verbose: print >>sys.stderr, 'sending status\n'
-    sent = sock.sendto(mac + ',*STATUS,'+ status +',' + signalst , multicast_group)
+    sent = sock.send(mac + ',*STATUS,'+ status +',' + signalst)
 
-def sendheartbeat(mac, verbose=True):
+def sendheartbeat(sock, mac, verbose=True):
     if verbose: print >>sys.stderr, 'sending heartbeat\n'
-    sent = sock.sendto(mac + ',*WB45HB' , multicast_group)
+    sent = sock.send(mac + ',*WB45HB')
 
-def sendsurvey(mac , ssid , signalst , secur, verbose=True):
+def sendsurvey(sock, mac , ssid , signalst , secur, verbose=True):
     if verbose: print >>sys.stderr, 'sending survey\n'
-    sent = sock.sendto(mac + ',*SITESURVEY,' + ssid + ',' + signalst + ',' + secur, multicast_group)
+    sent = sock.send(mac + ',*SITESURVEY,' + ssid + ',' + signalst + ',' + secur)
 
 
 
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sendversion(mac, '2.4.0')
-sendloopdetection(mac, '3523115984' , '851' ,'853')  
-sendstatus(mac, 'Authenticated' , '-73')  
-sendheartbeat(mac)
-sendsurvey(mac, 'tswpa' , '-68' , 'WPA2-PSK-AES')
+sock = serverinit()
+sendversion(sock, mac, '2.4.0')
+sendloopdetection(sock, mac, '3523115984' , '851' ,'853')  
+sendstatus(sock, mac, 'Authenticated' , '-73')  
+sendheartbeat(sock, mac)
+sendsurvey(sock, mac, 'tswpa' , '-68' , 'WPA2-PSK-AES')
+sendsurvey(sock, mac, 'dimitris2' , '-76' , 'WPA2-PSK-AES')
+sendsurvey(sock, mac, 'dimitris-public' , '-75' , 'WPA2-PSK-AES')
+sendsurvey(sock, mac, 'dimitris-public' , '-68' , 'WPA2-PSK-AES')
 
 
