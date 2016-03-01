@@ -33,10 +33,9 @@ def check_status(mac, mydata):
         return False
     try:
         val = int(mydata[3])
-        -30 > val > -100
     except ValueError:
         return False
-    return mydata[0] == mac
+    return mydata[0] == mac and (-30 > val > -100)
 
 def check_heartbeat(mac, mydata):
     if len(mydata) != 2:
