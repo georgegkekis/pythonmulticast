@@ -6,38 +6,38 @@ mac = '001723f14717'
 
 def check_version(mac, mydata):
     if len(mydata) != 2:
-        return -1
+        return False
     if mydata[0] == mac :
-        return 1
+        return True
     else:
-        return -1
+        return False
 
 def check_loopdetection(mac, mydata):
     if mydata[0] == mac :
-        return 1
+        return True
     else:
-        return -1
+        return False
 
 def check_status(mac, mydata):
     if mydata[0] == mac :
-        return 1
+        return True
     else:
-        return -1
+        return False
 
 def check_heartbeat(mac, mydata):
     if len(mydata) != 2:
-        return -1
+        return False
     if mydata[0] == mac :
-        return 1
+        return True
     else:
-        return -1
+        return False
 
 def check_survey(mac, mydata):
     surveylist =[]
     if mydata[0] == mac : 
-        return 1
+        return True
     else:
-        return -1
+        return False
 
 def receiverinit():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -57,9 +57,8 @@ while True:
     print 'mydata == %s' %mydata
     if len(mydata) < 2:
         print 'not enough arguments'
-        valid = -1
+        valid = False
     else:
-        valid = -1
         #checking the data
         if mydata[1][:9] == '*VERSION:':
             valid = check_version(mac, mydata)
@@ -73,7 +72,8 @@ while True:
             valid = check_survey(mac, mydata)
         else:
             print 'data is not recognizable'
+            valid = False
 
-    if valid > 0: print 'data valid'
+    if valid is True : print 'data valid'
     else: print 'data not valid'
 
