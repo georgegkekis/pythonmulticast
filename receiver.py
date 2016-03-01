@@ -43,7 +43,13 @@ def check_heartbeat(mac, mydata):
     return mydata[0] == mac
 
 def check_survey(mac, mydata):
-    return mydata[0] == mac
+    if len(mydata) != 5:
+        return False
+    try:
+        val = int(mydata[3])
+    except ValueError:
+        return False
+    return mydata[0] == mac and (mydata[2] == 'dimitris2' or mydata[2] == 'dimitris-public') and mydata[4] == 'WPA2-PSK-AES'
 
 def receiverinit():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
