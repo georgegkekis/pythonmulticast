@@ -4,7 +4,7 @@ import re
 
 mac = '001723f14717'
 version  = '2.4.0'
-loopnu = [3523115984, 850, 851 ]
+loopnu = [None, None, None ]
 
 def check_version(mac, mydata, version):
     if len(mydata) != 2:
@@ -22,9 +22,7 @@ def check_loopdetection(mac, mydata):
         val.append(int(mydata[4]))
     except ValueError:
         return False
-    if loopnu[0] == None:
-        loopnu = val
-    else:
+    if loopnu[0] != None:
         print 'here are val==%s' % val
         if loopnu[0] != val[0] or loopnu[1] >= val[1] or loopnu[2] >= val[2]: return False
     loopnu = val
@@ -32,6 +30,11 @@ def check_loopdetection(mac, mydata):
 
 def check_status(mac, mydata):
     if len(mydata) != 4:
+        return False
+    try:
+        val = int(mydata[3])
+        -30 > val > -100
+    except ValueError:
         return False
     return mydata[0] == mac
 
