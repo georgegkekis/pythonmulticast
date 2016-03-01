@@ -3,16 +3,36 @@ import sys
 import re
 
 mac = '001723f14717'
+version  = '2.4.0'
+loopnu = [3523115984, 850, 851 ]
 
-def check_version(mac, mydata):
+def check_version(mac, mydata, version):
     if len(mydata) != 2:
         return False
-    return mydata[0] == mac
+    return mydata[0] == mac and version == mydata[1][9:]
 
 def check_loopdetection(mac, mydata):
+    global loopnu
+    val = []
+    if len(mydata) != 5:
+        return False
+    try:
+        val.append(int(mydata[2]))
+        val.append(int(mydata[3]))
+        val.append(int(mydata[4]))
+    except ValueError:
+        return False
+    if loopnu[0] == None:
+        loopnu = val
+    else:
+        print 'here are val==%s' % val
+        if loopnu[0] != val[0] or loopnu[1] >= val[1] or loopnu[2] >= val[2]: return False
+    loopnu = val
     return mydata[0] == mac
 
 def check_status(mac, mydata):
+    if len(mydata) != 4:
+        return False
     return mydata[0] == mac
 
 def check_heartbeat(mac, mydata):
@@ -45,7 +65,7 @@ while True:
     else:
         #checking the data
         if mydata[1][:9] == '*VERSION:':
-            valid = check_version(mac, mydata)
+            valid = check_version(mac, mydata, version)
         elif mydata[1] == '*LOOPDETECTION':
             valid = check_loopdetection(mac, mydata)
         elif mydata[1] == '*STATUS':

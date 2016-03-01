@@ -32,7 +32,7 @@ def sendsurvey(sock, mac , ssid , signalst , secur, verbose=True):
 
 def sendinvalidstring(sock, verbose=True):
     if verbose: print >>sys.stderr, 'sending invalid string\n'
-    sent = sock.send('hgdfsdfsfss,gfgsdrsggr,sgdsgherhdh,egtergesrg,,,,')
+    sent = sock.send('hgdfsdfsfss,*WB45HB,sgdsgherhdh,egtergesrg,,,,')
 
 
 
