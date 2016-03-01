@@ -7,37 +7,21 @@ mac = '001723f14717'
 def check_version(mac, mydata):
     if len(mydata) != 2:
         return False
-    if mydata[0] == mac :
-        return True
-    else:
-        return False
+    return mydata[0] == mac
 
 def check_loopdetection(mac, mydata):
-    if mydata[0] == mac :
-        return True
-    else:
-        return False
+    return mydata[0] == mac
 
 def check_status(mac, mydata):
-    if mydata[0] == mac :
-        return True
-    else:
-        return False
+    return mydata[0] == mac
 
 def check_heartbeat(mac, mydata):
     if len(mydata) != 2:
         return False
-    if mydata[0] == mac :
-        return True
-    else:
-        return False
+    return mydata[0] == mac
 
 def check_survey(mac, mydata):
-    surveylist =[]
-    if mydata[0] == mac : 
-        return True
-    else:
-        return False
+    return mydata[0] == mac
 
 def receiverinit():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
