@@ -5,6 +5,7 @@ import re
 mac = '001723f14717'
 version  = '2.4.0'
 loopnu = [None, None, None ]
+ssid = 'dimitris2'
 
 def check_version(mac, mydata, version):
     if len(mydata) != 2:
@@ -42,14 +43,23 @@ def check_heartbeat(mac, mydata):
         return False
     return mydata[0] == mac
 
-def check_survey(mac, mydata):
+def parse_survey(mac, surveys, mydata):
     if len(mydata) != 5:
         return False
     try:
         val = int(mydata[3])
     except ValueError:
         return False
-    return mydata[0] == mac and (mydata[2] == 'dimitris2' or mydata[2] == 'dimitris-public') and mydata[4] == 'WPA2-PSK-AES'
+    if mydata[0] == mac:
+        return False
+
+    surveys.append([mydata[2], mydata[3], mydata[4]])
+    return True
+
+def check_survey(surveys, ssid):
+    for s in surveys:
+        if s[0] == ssid: return True
+    return False
 
 def receiverinit():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -58,6 +68,8 @@ def receiverinit():
 
 sock = receiverinit()
 # Receive/respond loop
+insurvey = False
+surveys = []
 while True:
     print >>sys.stderr, '\nwaiting to receive message'
     data, address = sock.recvfrom(1024)
@@ -71,6 +83,13 @@ while True:
         print 'not enough arguments'
         valid = False
     else:
+        if mydata[1] == '*SITESURVEY':
+            insurvey = True
+            valid = parse_survey(mac, surveys, mydata)
+        elif insurvey:
+            check_survey(surveys, ssid)
+            insurvey = False
+
         #checking the data
         if mydata[1][:9] == '*VERSION:':
             valid = check_version(mac, mydata, version)
@@ -80,8 +99,6 @@ while True:
             valid = check_status(mac, mydata)
         elif mydata[1] == '*WB45HB':
             valid = check_heartbeat(mac, mydata)
-        elif mydata[1] == '*SITESURVEY':
-            valid = check_survey(mac, mydata)
         else:
             print 'data is not recognizable'
             valid = False
