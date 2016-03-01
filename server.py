@@ -30,8 +30,9 @@ def sendsurvey(sock, mac , ssid , signalst , secur, verbose=True):
     if verbose: print >>sys.stderr, 'sending survey\n'
     sent = sock.send(mac + ',*SITESURVEY,' + ssid + ',' + signalst + ',' + secur)
 
-def sendempty(sock):
-    sent = sock.send('')
+def sendinvalidstring(sock, verbose=True):
+    if verbose: print >>sys.stderr, 'sending invalid string\n'
+    sent = sock.send('hgdfsdfsfss,gfgsdrsggr,sgdsgherhdh,egtergesrg,,,,')
 
 
 
@@ -42,8 +43,8 @@ sendstatus(sock, mac, 'Authenticated' , '-73')
 sendheartbeat(sock, mac)
 sendsurvey(sock, mac, 'tswpa' , '-68' , 'WPA2-PSK-AES')
 sendsurvey(sock, mac, 'dimitris2' , '-76' , 'WPA2-PSK-AES')
-#sendsurvey(sock, mac, 'dimitris-public' , '-75' , 'WPA2-PSK-AES')
-#sendsurvey(sock, mac, 'dimitris-public' , '-68' , 'WPA2-PSK-AES')
-sendempty(sock)
+sendsurvey(sock, mac, 'dimitris-public' , '-75' , 'WPA2-PSK-AES')
+sendsurvey(sock, mac, 'dimitris-public' , '-68' , 'WPA2-PSK-AES')
+sendinvalidstring(sock)
 
 

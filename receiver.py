@@ -47,7 +47,6 @@ def receiverinit():
 sock = receiverinit()
 # Receive/respond loop
 while True:
-    mydata = []
     print >>sys.stderr, '\nwaiting to receive message'
     data, address = sock.recvfrom(1024)
     
