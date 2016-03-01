@@ -50,15 +50,12 @@ def parse_survey(mac, surveys, mydata):
         val = int(mydata[3])
     except ValueError:
         return False
-    if mydata[0] == mac:
-        return False
+    if mydata[0] == mac and mydata[2] == ssid: surveys.append(mydata[2])
+    return False
 
-    surveys.append([mydata[2], mydata[3], mydata[4]])
-    return True
 
 def check_survey(surveys, ssid):
-    for s in surveys:
-        if s[0] == ssid: return True
+    if ssid in surveys: return True
     return False
 
 def receiverinit():
@@ -85,9 +82,13 @@ while True:
     else:
         if mydata[1] == '*SITESURVEY':
             insurvey = True
-            valid = parse_survey(mac, surveys, mydata)
-        elif insurvey:
-            check_survey(surveys, ssid)
+            parse_survey(mac, surveys, mydata)
+            continue
+        if insurvey:
+            validsurvey = check_survey(surveys, ssid)
+            if validsurvey:
+                print '\n\nfound a valid survey!!!!!!!!(this is about previous packages sent so dont get confused ;-)\n\n'
+            print '\n\nthe survey packets seem to be over and i didnt find a valid survey sorry ;-)\n\n'
             insurvey = False
 
         #checking the data

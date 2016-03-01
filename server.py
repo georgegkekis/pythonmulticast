@@ -42,9 +42,10 @@ sendloopdetection(sock, mac, '3523115984' , '851' ,'853')
 sendstatus(sock, mac, 'Authenticated' , '-73')  
 sendheartbeat(sock, mac)
 sendsurvey(sock, mac, 'tswpa' , '-68' , 'WPA2-PSK-AES')
-sendsurvey(sock, mac, 'dimitris2' , '-76' , 'WPA2-PSK-AES')
+#sendsurvey(sock, mac, 'dimitris2' , '-76' , 'WPA2-PSK-AES')
 sendsurvey(sock, mac, 'dimitris-public' , '-75' , 'WPA2-PSK-AES')
 sendsurvey(sock, mac, 'dimitris-public' , '-68' , 'WPA2-PSK-AES')
 sendinvalidstring(sock)
+sendheartbeat(sock, mac)
 
 
