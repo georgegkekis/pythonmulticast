@@ -88,7 +88,8 @@ while True:
             validsurvey = check_survey(surveys, ssid)
             if validsurvey:
                 print '\n\nfound a valid survey!!!!!!!!(this is about previous packages sent so dont get confused ;-)\n\n'
-            print '\n\nthe survey packets seem to be over and i didnt find a valid survey sorry ;-)\n\n'
+            else:
+                print '\n\nthe survey packets seem to be over and i didnt find a valid survey sorry ;-)\n\n'
             insurvey = False
 
         #checking the data
