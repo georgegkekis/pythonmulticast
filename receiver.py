@@ -85,7 +85,7 @@ while True:
         print'mac is ok'
     else: 
         print 'mac not right\n'
-        break
+        continue
     if len(mydata) < 2:
         print 'not enough arguments'
         valid = False
