@@ -50,12 +50,13 @@ def parse_survey(mac, surveys, mydata):
         val = int(mydata[3])
     except ValueError:
         return False
-    surveys.append(mydata[2])
+    surveys.append(mydata)
     return False
 
 
 def check_survey(surveys, ssid):
-    if ssid in surveys: return True
+    for s in surveys:
+        if s[2] == ssid: return True
     return False
 
 def receiverinit():
