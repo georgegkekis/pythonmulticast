@@ -47,5 +47,10 @@ sendsurvey(sock, mac, 'dimitris-public' , '-75' , 'WPA2-PSK-AES')
 sendsurvey(sock, mac, 'dimitris-public' , '-68' , 'WPA2-PSK-AES')
 sendinvalidstring(sock)
 sendheartbeat(sock, mac)
-
+sendinvalidstring(sock)
+sendheartbeat(sock, mac)
+sendinvalidstring(sock)
+sendheartbeat(sock, mac)
+sendinvalidstring(sock)
+sendheartbeat(sock, mac)
 

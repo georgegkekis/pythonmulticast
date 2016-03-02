@@ -6,6 +6,8 @@ mac = '001723f14717'
 version  = '2.4.0'
 loopnu = [None, None, None ]
 ssid = 'dimitris2'
+msg = '\n\nfound a valid survey!!!!!!!!(this is about previous packages sent so dont get confused ;-)\n\n'
+msg2 = '\n\nthe survey packets seem to be over and i didnt find a valid survey sorry ;-)\n\n'
 
 def check_version(mydata, version):
     if len(mydata) != 2:
@@ -25,7 +27,8 @@ def check_loopdetection(mydata):
         return False
     if loopnu[0] != None:
         print 'here are val==%s' % val
-        if loopnu[0] != val[0] or loopnu[1] >= val[1] or loopnu[2] >= val[2]: return False
+        if loopnu[0] != val[0] or loopnu[1] >= val[1] or loopnu[2] >= val[2]: 
+            return False
     loopnu = val
     return True
 
@@ -75,45 +78,45 @@ while True:
     print >>sys.stderr, '\nwaiting to receive message'
     data, address = sock.recvfrom(1024)
     
-    print >>sys.stderr, 'received %s bytes from %s' % (len(data), address)
+    print 'received %s bytes from %s' % (len(data), address)
 
     #parsing the data
     mydata = re.split(',',data)
     print 'mydata == %s' %mydata
+    if len(mydata) < 2:
+        print 'not enough arguments'
+        valid = False
+        continue
     mac_ok = check_mac(mac, mydata)
     if mac_ok:
         print'mac is ok'
     else: 
         print 'mac not right\n'
         continue
-    if len(mydata) < 2:
-        print 'not enough arguments'
-        valid = False
-    else:
-        if mydata[1] == '*SITESURVEY':
-            insurvey = True
-            parse_survey(surveys, mydata)
-            continue
-        if insurvey:
-            validsurvey = check_survey(surveys, ssid)
-            if validsurvey:
-                print '\n\nfound a valid survey!!!!!!!!(this is about previous packages sent so dont get confused ;-)\n\n'
-            else:
-                print '\n\nthe survey packets seem to be over and i didnt find a valid survey sorry ;-)\n\n'
-            insurvey = False
 
-        #checking the data
-        if mydata[1][:9] == '*VERSION:':
-            valid = check_version(mydata, version)
-        elif mydata[1] == '*LOOPDETECTION':
-            valid = check_loopdetection(mydata)
-        elif mydata[1] == '*STATUS':
-            valid = check_status(mydata)
-        elif mydata[1] == '*WB45HB':
-            valid = check_heartbeat(mydata)
+    if mydata[1] == '*SITESURVEY':
+        insurvey = True
+        parse_survey(surveys, mydata)
+        continue
+    if insurvey:
+        validsurvey = check_survey(surveys, ssid)
+        if validsurvey:
+            print msg
         else:
-            print 'data is not recognizable'
-            valid = False
+            print msg2
+        insurvey = False
+
+    if mydata[1][:9] == '*VERSION:':
+        valid = check_version(mydata, version)
+    elif mydata[1] == '*LOOPDETECTION':
+        valid = check_loopdetection(mydata)
+    elif mydata[1] == '*STATUS':
+         valid = check_status(mydata)
+    elif mydata[1] == '*WB45HB':
+        valid = check_heartbeat(mydata)
+    else:
+        print 'data is not recognizable'
+        valid = False
 
     if valid is True : print 'data valid'
     else: print 'data not valid'
